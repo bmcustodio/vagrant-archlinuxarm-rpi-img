@@ -1,13 +1,38 @@
 # vagrant-archlinuxarm-rpi-img
 
-Automates the process of generating `*.img` files from Arch Linux ARM's tarballs
-for Raspberry Pi, Raspberry Pi 2 and Raspberry Pi 3. These can then be used
+Automates the process of generating `*.img` files from
+[Arch Linux ARM](https://goo.gl/Nk5Hkk)'s tarballs for
+[Raspberry Pi](https://goo.gl/RQK38t),
+[Raspberry Pi 2](https://goo.gl/rVrBi1) and
+[Raspberry Pi 3](https://goo.gl/hEvwWT) (AArch64). These can then be used
 directly with `dd` on OSX and
 [Win32DiskImager](https://sourceforge.net/projects/win32diskimager/) on Windows.
 
-## Remarks
+## Pre-Requisites
 
-⚠️ This is still in a very early development stage. ⚠️
+* [Vagrant](https://www.vagrantup.com) (tested with 1.9.5).
+* [VirtualBox](https://www.virtualbox.org/) (tested with 5.1.22).
+
+## Building Images
+
+To build an image suitable for using with, e.g., Raspberry Pi 2, run
+
+```bash
+$ vagrant up
+$ vagrant ssh -c "/vagrant/build.sh rpi-2"
+$ vagrant destroy
+```
+
+The resulting `*.img` file will be placed in the `build/` directory:
+
+```bash
+$ ls -la build/
+total 2097160
+drwxr-xr-x   4 bmcustodio  staff         136 Jul  5 00:33 .
+drwxr-xr-x  12 bmcustodio  staff         408 Jul  5 00:31 ..
+-rw-r--r--   1 bmcustodio  staff          36 Jul  5 00:01 .gitkeep
+-rw-r--r--   1 bmcustodio  staff  1073741824 Jul  4 23:50 ArchLinuxARM-rpi-2-latest.img
+```
 
 ## License
 
