@@ -19,6 +19,6 @@ Vagrant.configure("2") do |config|
   end
   
   config.vm.provision :shell, :inline => <<-SHELL
-    sudo pacman -S --noconfirm dosfstools
+    sudo pacman -S --noconfirm dosfstools pv wget
   SHELL
 end

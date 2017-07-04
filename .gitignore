@@ -1,2 +1,4 @@
 .vagrant/
+build/*
+!build/.gitkeep
 sdcard.vdi
