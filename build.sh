@@ -12,12 +12,19 @@ MNT="/mnt"
 MNT_BOOT="${MNT}/boot"
 MNT_ROOT="${MNT}/root"
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SRC="${MNT}/alarm.tar.gz"
+SRC_FILE="alarm.tar.gz"
+MD5_FILE="${SRC_FILE}.md5"
+SRC_PATH="${MNT}/${SRC_FILE}"
+MD5_PATH="${MNT}/${MD5_FILE}"
 
 function build {
     local TGZ="ArchLinuxARM-${1}-latest.tar.gz"
-    local URL="http://os.archlinuxarm.org/os/${TGZ}"
-    wget -O "${SRC}" "${URL}"
+    local SRC_URL="http://os.archlinuxarm.org/os/${TGZ}"
+    local MD5_URL="${SRC_URL}.md5"
+    wget -O "${SRC_PATH}" "${SRC_URL}"
+    wget -O "${MD5_PATH}" "${MD5_URL}"
+    sed -i "s~${TGZ}~${SRC_PATH}~" "${MD5_PATH}"
+    md5sum -c "${MD5_PATH}"
 
     sfdisk "${DEV}" < "${ROOT_DIR}/sdcard.sfdisk"
     mkfs.vfat "${DEV_BOOT}"
@@ -27,7 +34,7 @@ function build {
     mount "${DEV_BOOT}" "${MNT_BOOT}"
     mount "${DEV_ROOT}" "${MNT_ROOT}"
 
-    bsdtar -xpf "${SRC}" -C "${MNT_ROOT}"
+    bsdtar -xpf "${SRC_PATH}" -C "${MNT_ROOT}"
     mv "${MNT_ROOT}/boot/"* "${MNT_BOOT}"
     sync
 
@@ -37,7 +44,8 @@ function build {
 }
 
 function clean {
-    rm "${SRC}"
+    rm "${SRC_PATH}"
+    rm "${MD5_PATH}"
     rmdir "${MNT_BOOT}"
     rmdir "${MNT_ROOT}"
     wipefs --all "${DEV}"
