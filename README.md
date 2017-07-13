@@ -5,7 +5,7 @@ Automates the process of generating `*.img` files from
 [Raspberry Pi](https://goo.gl/RQK38t),
 [Raspberry Pi 2](https://goo.gl/rVrBi1) and
 [Raspberry Pi 3](https://goo.gl/hEvwWT) (AArch64). These can then be used
-directly with `dd` on OSX and
+directly with `dd` on Linux and OSX and
 [Win32DiskImager](https://sourceforge.net/projects/win32diskimager/) on Windows.
 
 ## Pre-Requisites
@@ -33,6 +33,16 @@ drwxr-xr-x  12 bmcustodio  staff         408 Jul  5 00:31 ..
 -rw-r--r--   1 bmcustodio  staff          36 Jul  5 00:01 .gitkeep
 -rw-r--r--   1 bmcustodio  staff  1073741824 Jul  4 23:50 ArchLinuxARM-rpi-2-latest.img
 ```
+
+## Resizing the Root Partition
+
+By flashing the generated images to an SD card you will end up with a root
+partition which is about 900MB in size, while your card may have a total
+capacity of 16GB.
+
+To expand the root partition in order to fill the whole card you can safely use
+`fidsk` and `resize2fs` as described in this [answer](https://goo.gl/9EkLJK)
+after you boot your Raspberry Pi.
 
 ## License
 
